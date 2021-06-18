@@ -7,6 +7,19 @@ defmodule Strain do
   """
   @spec keep(list :: list(any), fun :: (any -> boolean)) :: list(any)
   def keep(list, fun) do
+    Enum.reduce(
+      list,
+      [],
+      fn element, accumulator ->
+        is_valid = fun.(element)
+
+        if is_valid do
+          accumulator ++ [element]
+        else
+          accumulator
+        end
+      end
+    )
   end
 
   @doc """
@@ -17,5 +30,18 @@ defmodule Strain do
   """
   @spec discard(list :: list(any), fun :: (any -> boolean)) :: list(any)
   def discard(list, fun) do
+    Enum.reduce(
+      list,
+      [],
+      fn element, accumulator ->
+        is_invalid = !fun.(element)
+
+        if is_invalid do
+          accumulator ++ [element]
+        else
+          accumulator
+        end
+      end
+    )
   end
 end
